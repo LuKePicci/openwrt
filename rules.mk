@@ -113,6 +113,9 @@ $(foreach t,$(DEFAULT_SUBDIR_TARGETS) $(1),
 )
 endef
 
+target_conf=$(subst .,_,$(subst -,_,$(subst /,_,$(1))))
+SUBTARGET:=$(strip $(foreach subdir,$(patsubst $(TOPDIR)/target/linux/$(BOARD)/%/target.mk,%,$(wildcard $(TOPDIR)/target/linux/$(BOARD)/*/target.mk)),$(if $(CONFIG_TARGET_$(call target_conf,$(BOARD)_$(subdir))),$(subdir))))
+
 DL_DIR:=$(if $(call qstrip,$(CONFIG_DOWNLOAD_FOLDER)),$(call qstrip,$(CONFIG_DOWNLOAD_FOLDER)),$(TOPDIR)/dl)
 OUTPUT_DIR:=$(if $(call qstrip,$(CONFIG_BINARY_FOLDER)),$(call qstrip,$(CONFIG_BINARY_FOLDER)),$(TOPDIR)/bin)
 BIN_DIR:=$(OUTPUT_DIR)/targets/$(BOARD)/$(SUBTARGET)
